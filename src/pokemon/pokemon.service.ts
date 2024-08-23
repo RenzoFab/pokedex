@@ -66,6 +66,17 @@ export class PokemonService {
   async remove(term: string) {
     const pokemon = await this.findOne(term);
     await pokemon.deleteOne();
+    return { id: term };
+  }
+
+  async fillData(pokemons: CreatePokemonDto[]) {
+    try {
+      await this.pokemonModel.collection.drop();
+      pokemons.forEach((pokemon) => this.create(pokemon));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 
   private handleException(error: any, method: 'create' | 'update') {
