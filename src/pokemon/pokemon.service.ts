@@ -69,16 +69,6 @@ export class PokemonService {
     return { id: term };
   }
 
-  async fillData(pokemons: CreatePokemonDto[]) {
-    try {
-      await this.pokemonModel.collection.drop();
-      pokemons.forEach((pokemon) => this.create(pokemon));
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
   private handleException(error: any, method: 'create' | 'update') {
     if ((error.code = 11000))
       throw new BadRequestException(
